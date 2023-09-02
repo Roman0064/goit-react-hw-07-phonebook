@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from 'redux/phonebookReducer';
 
 const Filter = () => {
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   const onChangeFilter = (filter) => {
