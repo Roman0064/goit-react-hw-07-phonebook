@@ -10,15 +10,9 @@ const initialState = {
   filter: '',
 };
 export const contactsSlice = createSlice({
-  name: 'user',
+  name: 'contacts',
   initialState,
   reducers: {
-    // addContact: (state, action) => {
-    //   state.contacts.items.push(action.payload);
-    // },
-    // deleteContact: (state, action) => {
-    //   state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload);
-    // },
     setFilter: (state, action) => {
       state.filter = action.payload;
     }
@@ -47,19 +41,15 @@ export const contactsSlice = createSlice({
     state.contacts.isLoading = true;
     state.contacts.error = null;
   }).addCase(deleteContact.fulfilled, (state, action) => {
-    state.contacts.isLoading = false;
-    state.contacts.error = null;
-    const index = state.contacts.items.findIndex(
-      contact => contact.id === action.payload
+    state.contacts.items = state.contacts.items.filter(
+      contact => contact.id !== action.payload.id
     );
-    if (index !== -1) {
-      state.contacts.items.splice(index, 1);
-    }
+    state.contacts.isLoading = false;
   }).addCase(deleteContact.rejected, (state, action) => {
     state.contacts.isLoading = false;
     state.contacts.error = action.payload;
   }),
 });
 
-export const { setFilter } = contactsSlice.actions;
+export const { setFilter, updateContactList } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

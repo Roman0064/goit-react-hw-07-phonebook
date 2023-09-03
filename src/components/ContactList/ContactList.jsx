@@ -1,33 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ContactItem from './ContactItem';
 import PropTypes from 'prop-types';
 import css from './ContactItem.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from '../../redux/operations';
-
-const ContactItem = ({ contact, onDelete }) => {
-  const { id, name, number } = contact;
-
-  return (
-    <li className={css.list}>
-      {name}: {number}
-      <button onClick={() => onDelete(id)} className={css.btn}>Delete</button>
-    </li>
-  );
-};
-
-ContactItem.propTypes = {
-  contact: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-  }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
+import { fetchAllContacts } from 'redux/operations';
+import { selectContacts, selectError, selectFilter, selectIsLoading } from 'redux/selectors';
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchAllContacts())
+  },[dispatch]);
 
   const getFilteredContacts = () => {
     return contacts.filter((contact) =>
@@ -35,12 +23,15 @@ const ContactList = () => {
     );
   };
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   const filteredContacts = getFilteredContacts();
-
-  const onDeleteContact= (id) => {
-    dispatch(deleteContact(id));
-  };
-
 
   return (
     <ul className={css.wrapper}>
@@ -48,7 +39,6 @@ const ContactList = () => {
         <ContactItem
           key={contact.id}
           contact={contact}
-          onDelete={onDeleteContact}
         />
       ))}
     </ul>

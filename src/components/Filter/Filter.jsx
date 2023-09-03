@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from 'redux/phonebookReducer';
+import { selectFilter } from 'redux/selectors';
 
 const Filter = () => {
-  const filter = useSelector(state => state.filter);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const onChangeFilter = (filter) => {
