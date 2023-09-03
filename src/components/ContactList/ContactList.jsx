@@ -10,8 +10,8 @@ const ContactList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
-  const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
     dispatch(fetchAllContacts())
@@ -22,11 +22,10 @@ const ContactList = () => {
       contact.name.toLowerCase().includes(filter)
     );
   };
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
+  
   if (error) {
     return <p>Error: {error}</p>;
   }

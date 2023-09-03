@@ -11,7 +11,6 @@ const ContactItem = ({ contact, onDelete }) => {
     dispatch(deleteContact(id));
   };
   
-  
     return (
       <li className={css.list}>
         {name}: {number}
