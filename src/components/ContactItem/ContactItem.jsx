@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ContactItem.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/phonebookReducer';
+import { deleteContact } from '../../redux/operations';
 
 const ContactItem = ({ contact, onDelete }) => {
   const { id, name, number } = contact;
